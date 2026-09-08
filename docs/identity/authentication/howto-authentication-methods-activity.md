@@ -3,7 +3,6 @@ title: Authentication Methods Activity
 description: Overview of the authentication methods that users register to sign in and reset passwords.
 ms.topic: how-to
 ms.date: 10/22/2025
-author: sopand
 ms.reviewer: dawoo
 ms.custom: sfi-ga-nochange, sfi-image-nochange
 ---
@@ -137,5 +136,5 @@ The registration details report shows the following information for each user:
 ## Next steps
 
 - [Working with the authentication methods usage report API](/graph/api/resources/authenticationmethods-usage-insights-overview)
-- [Choosing authentication methods for your organization](concept-authentication-methods.md)
+- [Choosing authentication methods for your organization](overview-authentication.md)
 - [Combined registration experience](concept-registration-mfa-sspr-combined.md)

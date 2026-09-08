@@ -3,12 +3,14 @@ title: Add an on-premises application for remote access through application prox
 description: Learn how to prepare your environment for application proxy and add an on-premises application to your Microsoft Entra tenant.
 ms.topic: tutorial
 ms.date: 03/10/2026
-ms.author: ashishj
-ms.reviewer: ashishj
+ms.reviewer: KaTabish
 ai-usage: ai-assisted
 ---
 
 # Add an on-premises application for remote access through application proxy in Microsoft Entra ID
+
+
+## Overview
 
 Microsoft Entra ID has an application proxy service that enables users to access on-premises applications by signing in with their Microsoft Entra account. To learn more about application proxy, see [What is application proxy?](overview-what-is-app-proxy.md). This tutorial prepares your environment for use with application proxy. After your environment is ready, use the Microsoft Entra admin center to add an on-premises application to your tenant.
 
@@ -17,8 +19,13 @@ Microsoft Entra ID has an application proxy service that enables users to access
 In this tutorial, you:
 - Install and verify the connector on your Windows server, and register it with application proxy.
 - Add an on-premises application to your Microsoft Entra tenant.
+- Grant admin consent for User.Read permission
 - Verify a test user can sign in to the application by using a Microsoft Entra account.
 
+> [!IMPORTANT]
+> Starting June 30, 2026, Microsoft Entra application proxy no longer automatically grants admin consent for the **User.Read** delegated permission when you create a new application proxy enterprise application. You must now explicitly grant this permission after creating the application.
+> 
+> This change applies only to **newly created** application proxy applications. Existing applications are not affected.
 
 ## Prerequisites
 
@@ -74,6 +81,53 @@ Add on-premises applications to Microsoft Entra ID.
     | **Validate Backend TLS Certificate** | Select to enable backend Transport Layer Security (TLS) certificate validation for the application. |
 
 1. Select **Add**.
+
+## Grant admin consent
+
+After creating a new application proxy application, grant admin consent for the **User.Read** delegated permission in the Microsoft Entra admin center or using the Microsoft Graph PowerShell.
+
+### [Microsoft Entra admin center](#tab/microsoft-entra-admin-center)
+
+1. Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com) as at least a [Cloud Application Administrator](/entra/identity/role-based-access-control/permissions-reference#cloud-application-administrator).
+2. Browse to **Identity** > **Applications** > **Enterprise applications**.
+3. Select the newly created application proxy application.
+4. Select **Permissions** in the left navigation.
+5. Select **Grant admin consent for [your tenant]**.
+6. Review the permissions and select **Accept**.
+
+### [Microsoft Graph PowerShell](#tab/microsoft-graph-powershell)
+
+```powershell
+# Connect with the required scope
+Connect-MgGraph -Scopes "Application.ReadWrite.All", "DelegatedPermissionGrant.ReadWrite.All"
+
+# Define variables
+$appObjectId = "<your-enterprise-app-object-id>"
+$microsoftGraphId = "00000003-0000-0000-c000-000000000000"  # Microsoft Graph
+$userReadPermissionId = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"  # User.Read
+
+# Get the service principal for your app
+$sp = Get-MgServicePrincipal -Filter "id eq '$appObjectId'"
+
+# Get the Microsoft Graph service principal
+$graphSp = Get-MgServicePrincipal -Filter "appId eq '$microsoftGraphId'"
+
+# Create the delegated permission grant
+New-MgOauth2PermissionGrant -ClientId $sp.Id `
+    -ConsentType "AllPrincipals" `
+    -ResourceId $graphSp.Id `
+    -Scope "User.Read"
+```
+
+---
+
+
+
+### Verify the permission was granted
+
+1. In the Microsoft Entra admin center, navigate to your enterprise application.
+2. Select **Permissions**.
+3. Confirm that **User.Read** appears under **Admin consent** with Type **Delegated** and Granted through **Admin consent**.
 
 ## Test the application
 

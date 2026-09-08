@@ -3,7 +3,6 @@ title: Find and address gaps in strong authentication coverage for your administ
 description: Learn how to find and address gaps in strong authentication coverage for your administrators in Microsoft Entra ID
 ms.topic: how-to
 ms.date: 03/04/2025
-author: inbarckMS
 ms.reviewer: inbarc
 ms.custom: sfi-ga-nochange, sfi-image-nochange
 ---
@@ -48,10 +47,10 @@ If you find administrators who aren't protected by multifactor authentication, y
 After your admins are enforced for multifactor authentication and have been using it for a while, it's time to increase authentication strength and use Passwordless and phishing resistant authentication methods: 
 
 - [Phone Sign-in (with Microsoft Authenticator)](concept-authentication-authenticator-app.md)
-- [FIDO2](concept-authentication-passwordless.md)
+- [FIDO2](concept-authentication-passkeys-fido2.md)
 - [Windows Hello for Business](/windows/security/identity-protection/hello-for-business/)
 
-You can read more about these authentication methods and their security considerations in [Microsoft Entra authentication methods](concept-authentication-methods.md).
+You can read more about these authentication methods and their security considerations in [Microsoft Entra authentication methods](overview-authentication.md).
 
 ## Next steps
 

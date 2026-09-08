@@ -2,18 +2,15 @@
 title: Configure AWS IAM Identity Center (successor to AWS single sign-on) for automatic user provisioning with Microsoft Entra ID
 description: Learn how to automatically provision and de-provision user accounts from Microsoft Entra ID to AWS IAM Identity Center.
 
-author: jeevansd
-manager: pmwongera
 
 ms.service: entra-id
 ms.subservice: saas-apps
 
 ms.topic: how-to
-ms.date: 02/26/2026
-ms.author: jeedes
+ms.date: 05/26/2026
 
 # Customer intent: As an IT administrator, I want to learn how to automatically provision and deprovision user accounts from Microsoft Entra ID to AWS IAM Identity Center so that I can streamline the user management process and ensure that users have the appropriate access to AWS IAM Identity Center.
----
+--- 
 
 # Configure AWS IAM Identity Center (successor to AWS single sign-on) for automatic user provisioning with Microsoft Entra ID
 
@@ -27,6 +24,13 @@ This article describes the steps you need to perform in both AWS IAM Identity Ce
 > * Keep user attributes synchronized between Microsoft Entra ID and AWS IAM Identity Center
 > * Provision groups and group memberships in AWS IAM Identity Center
 > * [aws singlesign-on document](aws-single-sign-on-tutorial.md) to AWS IAM Identity Center
+> * Long lived bearer token authentication supported.
+
+AWS IAM Identity Center is available in the following [national cloud deployments](/graph/deployments).
+
+| Global service | US Government | China operated by 21Vianet |
+|-----------------|------------------------|----------------------------|
+| :white_check_mark: |     | :white_check_mark:  |
 
 ## Prerequisites
 
@@ -166,7 +170,7 @@ With PIM for Groups, you can provide just-in-time access to groups in Amazon Web
 1. Add AWS IAM Identity Center to your tenant, configure it for provisioning as described in the article above, and start provisioning. 
 1. Configure [single sign-on](aws-single-sign-on-provisioning-tutorial.md) for AWS IAM Identity Center.
 1. Create a [group](/azure/active-directory/fundamentals/how-to-manage-groups) that provides all users access to the application.
-1. Assign the group to the AWS Identity Center application.
+1. Assign the group to the AWS IAM Identity Center application.
 1. Assign your test user as a direct member of the group created in the previous step, or provide them access to the group through an access package. This group can be used for persistent, non-admin access in AWS.
 
 **Enable PIM for groups**
@@ -232,7 +236,7 @@ You can also check the AWS IAM Identity Center troubleshooting tips [here](https
 ## Additional resources
 
 * [Managing user account provisioning for Enterprise Apps](~/identity/app-provisioning/configure-automatic-user-provisioning-portal.md)
-* [What is application access and IAM Identity Center with Microsoft Entra ID?](~/identity/enterprise-apps/what-is-single-sign-on.md)
+* [What is single sign-on in Microsoft Entra ID?](~/identity/enterprise-apps/what-is-single-sign-on.md)
 
 ## Related content
 

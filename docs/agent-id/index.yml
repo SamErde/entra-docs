@@ -1,120 +1,152 @@
 ### YamlMime:Hub
+
+## FRONT MATTER START
 title: Microsoft Entra Agent ID documentation
-summary: Secure and govern AI agents at enterprise scale with Microsoft Entra Agent ID and the Microsoft agent identity platform. Create agent identities, apply Zero Trust controls, and manage agent access to your organization's resources.
+summary: >
+  Secure access for AI agents with enterprise-grade access management, protection, and governance. Integrate AI agents with enterprise workflows, apply Zero Trust principles, and govern agent access at scale using the identity and network access capabilities of Microsoft Entra.
 brand: azure
 
 metadata:
   title: Microsoft Entra Agent ID documentation
   description: Build, secure, and manage agent identities with Microsoft Entra Agent ID. Integrate AI agents with enterprise workflows, apply Zero Trust principles, and govern agent access at scale.
-  ms.service: identity-platform
-  ms.topic: hub-page
-  author: shlipsey3
-  ms.author: sarahlipsey
-  ms.date: 02/22/2026
+  ms.topic: marketing-hub
+  ms.date: 06/19/2026
 
+## BAND 1 - HIGHLIGHTED CONTENT START #############################################################################################################################
 highlightedContent:
+# itemType: architecture | concept | deploy | download | get-started | how-to-guide | tutorial | overview | quickstart | reference | sample | video | whats-new
   items:
+    # Card
     - title: What is Microsoft Entra Agent ID?
       itemType: overview
-      url: ./identity-professional/microsoft-entra-agent-identities-for-ai-agents.md
-    - title: Microsoft agent identity platform for developers
-      itemType: overview
-      url: ./identity-platform/what-is-agent-id-platform.md 
-    - title: What is an agent identity?
-      url: ./identity-platform/what-is-agent-id.md
-      itemType: overview
-    - title: Create an agent identity
-      url: ./identity-platform/create-delete-agent-identities.md
-      itemType: how-to-guide
+      url: ./what-is-microsoft-entra-agent-id.md
+    # Card
+    - title: Plan your agent identity architecture
+      itemType: architecture
+      url: ./how-to-plan-agent-identity-architecture.md
+    # Card
+    - title: Security for AI overview
+      itemType: concept
+      url: ./security-for-ai-overview.md
+    # Card
+    - title: What's new in Agent ID
+      itemType: whats-new
+      url: ./whats-new-agent-id.md
+## BAND 1 - HIGHLIGHTED CONTENT END ###########################################################################################################################
 
+## BAND 2 - CONCEPTUAL CONTENT ################################################################################################################################
+conceptualContent:
+  title: Manage, govern, and protect
+  summary: Microsoft Entra Agent ID helps you manage, govern, and protect AI agent identities across your organization.
+  items:
+    # Card - MANAGE
+    - title: Manage agent identities
+      links:
+        - url: ./create-blueprint.md
+          itemType: how-to-guide
+          text: Create an agent blueprint
+        - url: ./create-delete-agent-identities.md
+          itemType: how-to-guide
+          text: Create agent identities
+        - url: ./manage-owners-sponsors-agents.md
+          itemType: how-to-guide
+          text: Manage owners and sponsors
+    # Card - GOVERN
+    - title: Govern agent lifecycles
+      links:
+        - url: ../id-governance/agent-id-governance-overview.md?toc=/entra/agent-id/toc.json&bc=/entra/agent-id/breadcrumb/toc.json
+          itemType: overview
+          text: ID Governance for agents
+        - url: ./agent-access-packages.md
+          itemType: concept
+          text: Access packages for agents
+        - url: /entra/id-governance/agent-sponsor-tasks?toc=/entra/agent-id/toc.json&bc=/entra/agent-id/breadcrumb/toc.json
+          itemType: how-to-guide
+          text: Maintain agent sponsors and lifecycle
+    # Card - PROTECT
+    - title: Protect agent access to resources
+      links:
+        - url: /entra/identity/conditional-access/agent-id?toc=/entra/agent-id/toc.json&bc=/entra/agent-id/breadcrumb/toc.json
+          itemType: concept
+          text: Conditional Access for agents
+        - url: /entra/id-protection/concept-risky-agents?toc=/entra/agent-id/toc.json&bc=/entra/agent-id/breadcrumb/toc.json
+          itemType: concept
+          text: ID Protection for agents
+        - url: /entra/global-secure-access/concept-secure-web-ai-gateway-agents?toc=/entra/agent-id/toc.json&bc=/entra/agent-id/breadcrumb/toc.json
+          itemType: concept
+          text: Network controls for agents
+    # Card - KEY CONCEPTS
+    - title: Key concepts
+      links:
+        - url: ./what-are-agent-identities.md
+          itemType: concept
+          text: Agent identities
+        - url: ./agent-blueprint.md
+          itemType: concept
+          text: Agent identity blueprints
+        - url: ./agent-users.md
+          itemType: concept
+          text: Agent's user account
+        - url: ./agent-service-principals.md
+          itemType: concept
+          text: Agent service principals
+    # Card - AUTH AND AUTHZ
+    - title: Authentication and authorization
+      links:
+        - url: ./authorization-agent-id.md
+          itemType: concept
+          text: Authorization in Agent ID
+        - url: ./concept-inheritable-permissions.md
+          itemType: concept
+          text: Inheritable permissions
+        - url: ./agent-oauth-protocols.md
+          itemType: concept
+          text: Authentication protocols for agents
+    # Card - PLAN AND DECIDE
+    - title: Planning and decision-making
+      links:
+        - url: ./how-to-plan-agent-identity-architecture.md
+          itemType: how-to-guide
+          text: Plan your agent identity architecture
+        - url: ./agent-id-creation-channels.md
+          itemType: concept
+          text: Agent creation channels
+        - url: ./best-practices-agent-id.md
+          itemType: concept
+          text: Best practices for agent identities
+## BAND 2 - CONCEPTUAL CONTENT END ############################################################################################################################
+
+## BAND 4 - ADDITIONAL CONTENT START ##########################################################################################################################
 additionalContent:
-  # Supports up to 4 subsections
   sections:
-    ## Section 1: Microsoft Entra Agent ID ######################
-    - title: Microsoft Entra Agent ID
-      summary: The comprehensive solution for protecting and governing AI agents in enterprise environments. Includes advanced security controls, and governance policies for agent identities and access management.
+    - title: Build on the Microsoft Entra agent identity platform
+      summary: Integrate agent authentication and authorization with SDKs, OAuth flows, and developer tools.
       items:
-        ## CARD 1 ######################
-        - title: Manage agents
-          links:
-            - text: What is Microsoft Entra Agent ID?
-              url: ./identity-professional/microsoft-entra-agent-identities-for-ai-agents.md
-            - text: Owners, sponsors, and managers
-              url: ./identity-platform/agent-owners-sponsors-managers.md
-            - text: Manage agents in the end user experience
-              url: ./identity-platform/manage-agent.md
-
-        
-        ## CARD 2 ######################
-        - title: Agent governance and lifecycles
-          links:
-            - text: Identity Governance for agents
-              url: ../id-governance/agent-id-governance-overview.md?toc=/entra/agent-id/identity-professional/toc.json&bc=/entra/agent-id/identity-professional/breadcrumb/toc.json
-            - text: Agent identity lifecycle management
-              url: ../id-governance/agent-sponsor-tasks.md?toc=/entra/agent-id/identity-professional/toc.json&bc=/entra/agent-id/identity-professional/breadcrumb/toc.json
-
-        ## CARD 3 ######################
-        - title: Protect agent access to resources
-          links:
-            - text: Conditional Access for agents
-              url: ../identity/conditional-access/agent-id.md?toc=/entra/agent-id/identity-professional/toc.json&bc=/entra/agent-id/identity-professional/breadcrumb/toc.json         
-            - text: Identity Protection for agents
-              url: ../id-protection/concept-risky-agents.md?toc=/entra/agent-id/identity-professional/toc.json&bc=/entra/agent-id/identity-professional/breadcrumb/toc.json
-            - text: Network controls for agents
-              url: ../global-secure-access/concept-secure-web-ai-gateway-agents.md?toc=/entra/agent-id/identity-professional/toc.json&bc=/entra/agent-id/identity-professional/breadcrumb/toc.json
-            
-    ## Section 2: Microsoft agent identity platform ######################
-    - title: Microsoft agent identity platform for developers
-      summary: The platform that enables you to create and manage agent identities.
+        - title: Microsoft Entra SDK for agents
+          summary: Integrate agent authentication with familiar SDKs and developer tools.
+          url: ./microsoft-entra-sdk-for-agent-identities.md
+        - title: AI-guided setup
+          summary: Use an AI coding agent to automate the full Agent ID onboarding workflow.
+          url: ./agent-id-ai-guided-setup.md
+        - title: OAuth protocols for agents
+          summary: Understand how agents authenticate using OAuth 2.0 flows optimized for AI workloads.
+          url: ./agent-oauth-protocols.md
+        - title: Configure third-party agents
+          summary: Integrate agents from platforms like AWS Bedrock and n8n with Agent ID.
+          url: ./configure-third-party-agents.md
+        - title: Call Microsoft Graph API
+          summary: Access Microsoft 365 data and services from your agents.
+          url: ./call-api-microsoft-graph.md
+    - title: Microsoft Agent 365
+      summary: The enterprise control plane for managing and governing AI agents at scale. Built on the identity foundation of Microsoft Entra.
       items:
-        ## CARD 1 ######################
-        - title: Learn about key concepts
-          links:        
-            - text: What is an agent identity blueprint?
-              url: ./identity-platform/agent-blueprint.md
-            - text: What is an agent identity?
-              url: ./identity-platform/agent-identities.md
-            - text: What are agent users?
-              url: ./identity-platform/agent-users.md
-
-        ## CARD 2 ######################
-        - title: Build with the Microsoft agent identity platform
-          links:
-            - text: Create an agent identity blueprint
-              url: ./identity-platform/create-blueprint.md
-            - text: Create an agent identity
-              url: ./identity-platform/create-delete-agent-identities.md  
-            - text: Configure Microsoft Entra SDK for agent identities
-              url: ./identity-platform/microsoft-entra-sdk-for-agent-identities.md
-
-        ## CARD 3 ######################
-        - title: Authenticate and call APIs
-          links:
-            - text: Request tokens for autonomous agents
-              url: ./identity-platform/autonomous-agent-request-tokens.md
-            - text: Call Microsoft Graph from an agent
-              url: ./identity-platform/call-api-microsoft-graph.md
-            - text: Grant app permissions to an autonomous agent
-              url: ./identity-platform/autonomous-agent-request-authorization-entra-admin.md
-   
-
-    ## Section 3: Learn more ######################
-    - title: Learn more
-      summary: Explore SDK references, API documentation, and code samples to build and manage agent identities.
-      items:
-        ## CARD 1 ######################
-        - title: Technical references
-          links:
-            - text: SDK Reference
-              url:  /entra/msidweb/agent-id-sdk/overview
-            - text: Microsoft Graph API reference
-              url: /graph/api/overview 
-            - text: OAuth protocols for Agent identities
-              url: ./identity-platform/agent-oauth-protocols.md
-        ## CARD 2 ######################
-        - title: Related content
-          links:
-            - text: Security for AI
-              url: /security/security-for-ai/
-            - text: Security Copilot + Microsoft Entra
-              url: /entra/security-copilot/security-copilot-in-entra        
+        - title: Why Agent 365 for enterprise
+          summary: Discover how Microsoft Agent 365 helps enterprises manage and govern AI agents at scale.
+          url: /microsoft-agent-365/leadership/why-agent-365-for-enterprise
+        - title: Microsoft Entra and Agent 365
+          summary: Learn how Microsoft Entra Agent ID provides the identity foundation for Agent 365.
+          url: /microsoft-agent-365/leadership/entra-agent-365
+        - title: Secure AI agents with Agent 365
+          summary: Understand how Agent 365 and Agent ID work together to secure AI agents.
+          url: /security/security-for-ai/agent-365-security?context=%2Fmicrosoft-agent-365%2Fcontext&view=o365-worldwide
+## BAND 4 - ADDITIONAL CONTENT END ############################################################################################################################

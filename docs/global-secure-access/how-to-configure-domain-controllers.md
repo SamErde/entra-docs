@@ -1,13 +1,15 @@
 ---
 title: Configure Microsoft Entra Private Access for Active Directory Domain Controllers
-description: Learn how to configure Microsoft Entra Private Access for Active Directory Domain Controllers.
+description: "Enforce Conditional Access and multifactor authentication for Kerberos authentication to Active Directory Domain Controllers through Microsoft Entra Private Access."
 ms.topic: how-to
-ms.date: 01/21/2026
+ms.date: 06/04/2026
 ms.subservice: entra-private-access
 ms.reviewer: shkhalid
 ai-usage: ai-assisted
 ---
 # Configure Microsoft Entra Private Access for Active Directory domain controllers
+
+## Overview
 
 This guide describes how to configure Microsoft Entra Private Access for Active Directory Domain Controllers (DCs). This capability helps strengthen secure access for on-premises users by enforcing conditional access/MFA to on-premises applications that use Kerberos authentication with the DCs.
 
@@ -17,25 +19,63 @@ To configure Microsoft Entra Private Access for Active Directory Domain Controll
 
 - The **Global Secure Access Administrator** role in Microsoft Entra ID.
 - The product requires licensing. For details, see the licensing section of [What is Global Secure Access](overview-what-is-global-secure-access.md). If needed, you can [purchase licenses or get trial licenses](https://aka.ms/azureadlicense).
-- A client machine that runs at least Windows 10 and is Microsoft Entra joined or hybrid joined device. The client machine must also have line of sight to the private resources and DC (user is in a corporate network and accessing on-premises resources). User identity used for joining the device and accessing these resources was created in Active Directory (AD) and synced to Microsoft Entra ID using Microsoft Entra Connect.
+- A client machine that runs at least Windows 10 and is a Microsoft Entra joined or hybrid joined device. The client machine must also have line of sight to the private resources and DC (user is in a corporate network and accessing on-premises resources). The user identity used for joining the device and accessing these resources must be created in Active Directory (AD) and synced to Microsoft Entra ID using Microsoft Entra Connect.
 - The latest Microsoft Entra Private network connector is installed and has a line of sight to the DC.
 - Open inbound Transmission Control Protocol (TCP) port `1337` in the Windows Firewall on the DCs.
-- Ensure your firewall or proxy allows outbound connections to the wildcard domain suffix `*.msappproxy.net:443`. Private Access Sensor uses this secure channel to register and fetch policies from Microsoft's Entra cloud service.
+- Allow the outbound network connectivity required by the Private Access Sensor. For the required URLs and ports, see [Network requirements](#network-requirements).
 - The Service Principal Names (SPNs) of the private apps you want to protect. You add these SPNs in the policy for Private Access Sensors that are installed on the DCs.
 > [!NOTE]
 > The SPNs are *case insensitive* and should be an *exact match* or a wildcard in the format `<serviceclass>/*` such as `cifs/*`.
-- Install the latest Private Access Sensor on the DC. Understand that one Private Access Sensor can be installed on a DC. Silent installation is supported with Private Access Sensor version 2.2.0 or higher, and PowerShell version 5.x.
+- Install the latest Private Access Sensor on the DC. For version details, see [Private Access Sensor release notes](reference-private-access-sensor-release-history.md). You can install only one Private Access Sensor on a DC. Silent installation is supported with Private Access Sensor version 2.2.0 or higher, and PowerShell version 5.x.
 - To test this functionality, you can install sensors on a few DCs in a site that issue Kerberos tickets for the SPNs you want to protect. A sensor is installed in `Audit` mode by default and you need to change it to `enforce` mode.
-- As a best practice, we recommend testing this functionality with the private apps first. You can enforce MFA to the DC itself by using its SPN, however, we recommend that you test that at a later stage to avoid any issues of admin lockout.
+- As a best practice, test this functionality with the private apps first. You can enforce MFA to the DC itself by using its SPN. However, consider testing that at a later stage to avoid any issues of admin lockout.
 - If you use NT LAN Manager (NTLM) v1/v2 in your environment, you might need to restrict NTLM and use Kerberos auth in the domain.
-- 
 
-> [!Note]
+> [!NOTE]
 > Setting the policy Restrict NTLM: NTLM authentication in this domain without performing an impact assessment first might cause service outage for those applications and users still using NTLM authentication.
 >
 > [Auditing and restricting NTLM usage guide | Microsoft Learn](/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/jj865674(v=ws.10))
 > [Using security policies to restrict NTLM traffic | Microsoft Learn](/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/jj865668(v=ws.10))
 
+
+## Network requirements
+
+The Private Access Sensor communicates with the same Microsoft Entra cloud service as the Microsoft Entra private network connector, so it requires the same outbound network connectivity. Allow outbound access to the following URLs:
+
+| URL | Port | How it's used |
+| --- | --- | --- |
+| `*.msappproxy.net` <br> `*.servicebus.windows.net` | 443/HTTPS | Communication between the sensor and the Microsoft Entra cloud service. |
+| `crl3.digicert.com` <br> `crl4.digicert.com` <br> `ocsp.digicert.com` <br> `crl.microsoft.com` <br> `oneocsp.microsoft.com` <br> `ocsp.msocsp.com` | 80/HTTP | The sensor uses these URLs to verify certificates. |
+| `login.windows.net` <br> `secure.aadcdn.microsoftonline-p.com` <br> `*.microsoftonline.com` <br> `*.microsoftonline-p.com` <br> `*.msauth.net` <br> `*.msauthimages.net` <br> `*.msecnd.net` <br> `*.msftauth.net` <br> `*.msftauthimages.net` <br> `*.phonefactor.net` <br> `enterpriseregistration.windows.net` <br> `management.azure.com` <br> `ctldl.windowsupdate.com` <br> `www.microsoft.com/pkiops` | 443/HTTPS | The sensor uses these URLs during and beyond the registration process. |
+| `ctldl.windowsupdate.com` <br> `www.microsoft.com/pkiops` | 80/HTTP | The sensor uses these URLs during and beyond the registration process. |
+
+If your firewall or proxy lets you configure access rules based on domain suffixes, you can allow connections to `*.msappproxy.net`, `*.servicebus.windows.net`, and the other URLs in the table. If not, allow access to the [Azure IP ranges and Service Tags - Public Cloud](https://www.microsoft.com/download/details.aspx?id=56519), which are updated weekly.
+
+These requirements match the Microsoft Entra private network connector. For the source tables, see [Allow access to URLs](how-to-configure-connectors.md#allow-access-to-urls) and [Open ports](how-to-configure-connectors.md#open-ports).
+
+> [!IMPORTANT]
+> Avoid all forms of inline inspection and termination on outbound TLS communications between the Private Access Sensor and the Microsoft Entra cloud service.
+
+### Outbound proxy support
+
+If your environment routes outbound traffic through a proxy server, the Private Access Sensor can communicate with the Microsoft Entra cloud service through an outbound proxy, the same as the Microsoft Entra private network connector.
+
+To route the sensor's traffic through an outbound proxy:
+
+1. On the domain controller, open the `C:\Program Files\Private Access Sensor\bin\PaSensorServices.exe.config` file.
+1. Inside the `<configuration>` element, add the following `system.net` section. Replace `proxyserver:8080` with your proxy server name or IP address and port. Include the `http://` prefix even when you use an IP address.
+
+    ```xml
+    <system.net>
+      <defaultProxy>
+        <proxy proxyaddress="http://proxyserver:8080" bypassonlocal="True" usesystemdefault="True" />
+      </defaultProxy>
+    </system.net>
+    ```
+
+1. Save the file, and then restart the Private Access Sensor service.
+
+Proxy authentication isn't supported, so allow the sensor anonymous access to the required destinations. For more about the outbound proxy scenarios, see [Work with existing on-premises proxy servers](~/identity/app-proxy/application-proxy-configure-connectors-with-proxy-servers.md).
 
 ## Configuration steps
 
@@ -54,11 +94,11 @@ Follow these steps to configure Microsoft Entra Private Access for Active Direct
 
 ### 2. Create a Global Secure Access application
 
-Create a new Enterprise Application or use Quick Access to publish the domain controllers using their IP addresses or Fully Qualified Domain Name (FQDN). Publishing the DCs lets the Global Secure Access clients obtain Kerberos tickets. In addition, use Quick Access to configure SPNs. In this example, Quick Access is used to configure both.
+Create a new Enterprise Application or use Quick Access to publish the domain controllers using their IP addresses or Fully Qualified Domain Name (FQDN). Publishing the DCs lets the Global Secure Access clients obtain Kerberos tickets. In addition, use Quick Access to configure SPNs. In this example, you use Quick Access to configure both.
 
 1. Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com).
-1. Go to **Global Secure Access** > **Applications** > **Quick Access** > **Application segment** then select **Add Quick Access application segment**. Use port `88` and select **TCP**.
-1. Next go to **Service principal name** and then select **Add Service principal name** to add the SPNs for the resources you want to secure. The system automatically delivers these SPNs to the Private Access Sensors installed on your domain controllers.
+1. Go to **Global Secure Access** > **Applications** > **Quick Access** > **Application segment**, then select **Add Quick Access application segment**. Use port `88` and select **TCP**.
+1. Next, go to **Service principal name** and then select **Add Service principal name** to add the SPNs for the resources you want to secure. The system automatically delivers these SPNs to the Private Access Sensors installed on your domain controllers.
 
 [![Diagram showing Quick Access settings when configuring Microsoft Entra Private Access integration with Active Directory Domain Controllers.](media/how-to-configure-domain-controllers/quick-access-settings.png)](media/how-to-configure-domain-controllers/quick-access-settings.png#lightbox)
 
@@ -74,7 +114,7 @@ Create a new Enterprise Application or use Quick Access to publish the domain co
 1. Go to **Global Secure Access** > **Connect** > **Traffic forwarding** > **Private Access Profile**.
 1. Enable the Private Access profile.
 
-[![Screenshot showing the Private Access traffic forwarding profile activated in the Microsoft Entra admin center.](media/how-to-configure-domain-controllers/traffic-forwarding-profile.png)](media/how-to-configure-domain-controllers/traffic-forwarding-profile.png#lightbox)
+[![Screenshot that shows the Private Access traffic forwarding profile activated in the Microsoft Entra admin center.](media/how-to-configure-domain-controllers/traffic-forwarding-profile.png)](media/how-to-configure-domain-controllers/traffic-forwarding-profile.png#lightbox)
 
 ### 5. Install the Global Secure Access client
 
@@ -85,26 +125,26 @@ Create a new Enterprise Application or use Quick Access to publish the domain co
 
 ### 6. Install the Private Access Sensor on the domain controller
 
-1. Download the Private Access Sensor for DC from Microsoft Entra admin center at **Global Secure Access** > **Connect** > **Connectors and sensors** > **Private access sensors** > **Download private access sensor**.
+1. Download the Private Access Sensor for the DC from the Microsoft Entra admin center at **Global Secure Access** > **Connect** > **Connectors and sensors** > **Private access sensors** > **Download private access sensor**.
 1. Install the sensor by selecting the Private Access Sensor Installer and following the steps.
 1. During installation, sign in with a Microsoft Entra ID user when prompted.
 1. After installation, in the Microsoft Entra admin center, go to **Global Secure Access** > **Connect** > **Connectors and sensors** > **Private access sensors** and verify the sensor status is **Active**.
 
-[![Screenshot showing the Private Access sensor as activated in the Microsoft Entra admin center.](media/how-to-configure-domain-controllers/connectors-and-sensors.png)](media/how-to-configure-domain-controllers/connectors-and-sensors.png#lightbox)
+[![Screenshot that shows the Private Access sensor as activated in the Microsoft Entra admin center.](media/how-to-configure-domain-controllers/connectors-and-sensors.png)](media/how-to-configure-domain-controllers/connectors-and-sensors.png#lightbox)
 
 > [!IMPORTANT]
-> To upgrade to the Private Access Sensor version 2.1.31, it's recommended to uninstall the previous sensor and then installing the new sensor. You can in-place upgrade from the sensor versions 2.1.31 and later.
+> To upgrade to the Private Access Sensor version 2.1.31, uninstall the previous sensor and then install the new sensor. You can in-place upgrade from the sensor versions 2.1.31 and later.
 
 ### 7. Install sensor silently (no interactive authentication)
 
 For enterprise environments deploying sensors across multiple domain controllers, silent installation enables automated deployment without requiring interactive sign-in on each DC. This approach is useful when deploying to servers that don't have a GUI, are in remote locations, or when using deployment automation tools like Group Policy, Microsoft Endpoint Configuration Manager, or scripts. By generating an offline token on a workstation with browser access, you can then register sensors on multiple DCs without needing to authenticate interactively on each server. Silent installation is supported with Private Access Sensor version 2.2.0 or higher, and PowerShell version 5.x.
 
-1. Download sensor to Domain Controller (DC) server and run this cmd in a PowerShell or command window with admin privileges to install quietly.
+1. Download sensor to Domain Controller (DC) server and run this command in a PowerShell or command window with admin privileges to install quietly.
 
 ```cmd
 .\PrivateAccessSensor.exe /quiet SKIPREGISTRATION="true"
 ```
-2. Register Sensor
+1. Register Sensor
 
     a. Generate offline token using this PowerShell script. This script should open an interactive browser pop-up to authenticate with your credentials, so it's recommended to do this on a machine with a GUI, internet access, and a browser.
 
@@ -171,7 +211,7 @@ For enterprise environments deploying sensors across multiple domain controllers
     $SecureToken = $Token | ConvertTo-SecureString -AsPlainText -Force
     ```
 
-    c. Register sensor using the `$SecureToken` created in the last step and the `$tenantId`. The `RegisterConnector.ps1` script should be in `C:\Program Files\Private Access Sensor\bin`.
+    c. Register the sensor using the `$SecureToken` created in the last step and the `$tenantId`. The `RegisterConnector.ps1` script should be in `C:\Program Files\Private Access Sensor\bin`.
 
     ```PowerShell
     .\RegisterConnector.ps1 -modulePath "C:\Program Files\Private Access Sensor\bin" -moduleName "MicrosoftEntraPrivateNetworkConnectorPSModule" -Authenticationmode Token -Token $SecureToken -TenantId $tenantId -Feature PrivateAccess
@@ -187,12 +227,12 @@ Installing the sensor creates two JSON policy files (`cloudpolicy` and `localpol
 1. If you add or update SPNs and/or Connector IPs, it can take a few minutes for changes to take effect. You don't need to restart the sensors.
 
 > [!IMPORTANT]
-> The Private Access Sensor is installed in Audit (report-only) mode by default. To enforce MFA, set the `SensorMode` for `PrivateAccessSensor` to `EnforceMode` in **Global Secure Access** > **Connect** > **Connectors and sensors** > **Private access sensors**. It might take a few minutes to update the sensor mode. For Private Access Sensor versions 2.1.31 and later, you can only update this mode from Microsoft Entra Admin Center and not the registry key from the Private Access Sensor.
+> The Private Access Sensor is installed in Audit (report-only) mode by default. To enforce MFA, set the `SensorMode` for `PrivateAccessSensor` to `EnforceMode` in **Global Secure Access** > **Connect** > **Connectors and sensors** > **Private access sensors**. It might take a few minutes to update the sensor mode. For Private Access Sensor versions 2.1.31 and later, you can only update this mode from the Microsoft Entra admin center and not the registry key from the Private Access Sensor.
 
 
 ## Exclusions and inclusions for SPNs
 
-When configuring Service Principal Names (SPNs) in the Private Access Sensor policy, you might have users or machines in your environment that don't have the Global Secure Access client installed. To allow these users or machines to access the specified SPNs after the Private Access Sensor is deployed, you can configure exclusions or inclusions for each SPN from Microsoft Entra Admin Center or in the `localpolicy` file. Any exclusions or inclusions configured from Microsoft Entra Admin Center are present in the `cloudpolicy` file.
+When configuring Service Principal Names (SPNs) in the Private Access Sensor policy, you might have users or machines in your environment that don't have the Global Secure Access client installed. To allow these users or machines to access the specified SPNs after the Private Access Sensor is deployed, you can configure exclusions or inclusions for each SPN from the Microsoft Entra admin center or in the `localpolicy` file. Any exclusions or inclusions configured from the Microsoft Entra admin center are present in the `cloudpolicy` file.
 
 > [!NOTE]
 > Both `cloudpolicy` and `localpolicy` are evaluated for access.
@@ -205,10 +245,10 @@ Exclusions allow specific users or machines to access configured SPNs without re
 
 - Client IP address
 - IP address ranges
-- On-premises User Principal Name (UPN) such as `username@domain`. UPN is supported with Private Access Sensor version 2.1.31 or higher and is case insensitive. Username, which is the first part of the UPN, is supported with the earlier sensor versions and can be added in the `localpolicy`file only. We highly recommend using the UPNs instead of usernames. UPNs for on-premises users can be added from Microsoft Entra admin center. These can be UPNs for on-premises users that are synced to Entra or local to Active Directory and not synced to Entra. 
+- On-premises User Principal Name (UPN) such as `username@domain`. UPN is supported with Private Access Sensor version 2.1.31 or higher and is case insensitive. Username, which is the first part of the UPN, is supported with the earlier sensor versions and can be added in the `localpolicy` file only. Use UPNs instead of usernames. UPNs for on-premises users can be added from the Microsoft Entra admin center. These can be UPNs for on-premises users that are synced to Microsoft Entra ID or local to Active Directory and not synced to Microsoft Entra ID.
 
 > [!NOTE] 
-> UPNs for on-premises users that are local to Active Directory and not synced to Entra can only be added to the `localpolicy` file in Private Access Sensor versions earlier than 2.2.0.
+> UPNs for on-premises users that are local to Active Directory and not synced to Microsoft Entra ID can only be added to the `localpolicy` file in Private Access Sensor versions earlier than 2.2.0.
 
 You can configure multiple IP addresses, multiple IP ranges, or both for a single SPN. Similarly, you can exclude multiple usernames for an SPN.
 
@@ -229,9 +269,9 @@ If you need to allow access for many users, you can instead specify an inclusion
 > [!TIP]
 > Use exclusions and inclusions to fine-tune access for users and devices that don't have the Global Secure Access client, ensuring business continuity while maintaining security controls.
 
-Example of how to configure SPN username exclusions and inclusions from Microsoft Entra Admin Center:
+Example of how to configure SPN username exclusions and inclusions from the Microsoft Entra admin center:
 >
-[![Screenshot of the localpolicy file showing how to configure the file for SPN username exclusions and inclusions.](media/how-to-configure-domain-controllers/exclusions-and-inclusions.png)](media/how-to-configure-domain-controllers/exclusions-and-inclusions.png#lightbox)
+[![Screenshot that shows the localpolicy file showing how to configure the file for SPN username exclusions and inclusions.](media/how-to-configure-domain-controllers/exclusions-and-inclusions.png)](media/how-to-configure-domain-controllers/exclusions-and-inclusions.png#lightbox)
 
 #### Break glass mode
 
@@ -257,12 +297,12 @@ Example of how to configure SPN username exclusions and inclusions from Microsof
 ### 10. Investigation and troubleshooting
 
 - Use **Event Viewer** from **Application and Service Logs** > **Microsoft** > **Windows** > **Private Access Sensor** to review Private Access Sensor logs.
-[![Screenshot of Event Viewer page.](media/how-to-configure-domain-controllers/event-viewer.png)](media/how-to-configure-domain-controllers/event-viewer.png#lightbox)
+[![Screenshot that shows Event Viewer page.](media/how-to-configure-domain-controllers/event-viewer.png)](media/how-to-configure-domain-controllers/event-viewer.png#lightbox)
 - To collect Private Access Sensor logs, run `PrivateAccessSensorLogsCollector` from the sensor installation path and share the generated zip file with Microsoft support.
 - For Global Secure Access client logs:
     1. Right-click the Global Secure Access tray icon.
-    2. Select **Advanced Diagnostics** > **Advanced log collection** > **Collect advanced logs**.
-    3. Reproduce your issue, then stop log collection and submit the logs to Microsoft support.
+    1. Select **Advanced Diagnostics** > **Advanced log collection** > **Collect advanced logs**.
+    1. Reproduce your issue, then stop log collection and submit the logs to Microsoft support.
 
 > [!TIP]
 > If you encounter issues, provide screenshots, command outputs, and collected logs to Microsoft support for further assistance.

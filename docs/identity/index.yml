@@ -42,7 +42,7 @@ productDirectory:
       url: ./conditional-access/overview.md
     - title: Device identity
       imageSrc: ./media/index/devices.svg
-      summary: "Register and join devices to Microsoft Entra ID for device management and Condition Access."
+      summary: "Register and join devices to Microsoft Entra ID for device management and Conditional Access."
       url: ./devices/overview.md
     - title: Hybrid identity
       imageSrc: ./media/index/hybrid-identity.svg
@@ -76,6 +76,10 @@ productDirectory:
       imageSrc: ./media/index/domain-services.svg
       summary: "Move legacy apps to managed domains in the cloud while preserving user accounts, groups, and access."
       url: ./domain-services/overview.md
+    - title: Tenant governance
+      imageSrc: ./media/index/domain-services.svg
+      summary: "Discover related tenants, manage cross-tenant governance relationships, monitor tenant configuration and secure tenant creation."
+      url: ../id-governance/tenant-governance/overview.md
     - title: Azure Active Directory B2C
       imageSrc: ./media/index/azure-ad-b2c.svg
       summary: "Business to consumers identity and access management for your app."

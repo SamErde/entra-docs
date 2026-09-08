@@ -2,7 +2,7 @@
 title: Known issues for provisioning in Microsoft Entra ID
 description: Learn about known issues when you work with automated application provisioning or cross-tenant synchronization in Microsoft Entra ID.
 ms.topic: troubleshooting
-ms.date: 10/04/2025
+ms.date: 03/31/2026
 ms.reviewer: arvinh
 zone_pivot_groups: app-provisioning-cross-tenant-synchronization
 ---
@@ -111,6 +111,10 @@ The otherMails property is automatically computed in the target tenant. Changes 
 
 Multivalue directory extensions can't be used in attribute mappings or scoping filters. 
 
+#### SCIM multi-valued addresses, emails and phone numbers
+
+SCIM multi-valued attributes in `addresses`, `emails` and `phoneNumbers` are currently processed only for supported `type` values. Attribute mappings that reference `addresses[type eq "home"]`, `addresses[type eq "any-other-value"]`, `emails[type eq "home"]` or `phoneNumbers[type eq "home"]` aren't processed. Only `addresses[type eq "work"]`, `emails[type eq "work"]` and `phoneNumbers[type eq "work"]` are processed. All other types are skipped. 
+
 
 ## Service issues 
 
@@ -119,7 +123,7 @@ Multivalue directory extensions can't be used in attribute mappings or scoping f
 - Provisioning passwords isn't supported. 
 - Provisioning nested groups beyond the first level is not supported. 
 - Provisioning is not supported for B2C tenants, including into or out of the tenant.
-- Provisioning is not supported for External ID tenants, including into or out of the tenant.
+- Inbound provisioning using System for Cross‑domain Identity Management (SCIM) is not supported. Use Microsoft Graph and [Microsoft Graph batch](/graph/json-batching) instead.
 - Not all provisioning apps are available in all clouds. 
 
 ::: zone pivot="app-provisioning"

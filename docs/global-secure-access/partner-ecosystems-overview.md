@@ -2,7 +2,7 @@
 title: Partner Ecosystem Overview
 description: Learn about the Microsoft Secure Access Service Edge (SASE) partner ecosystem. Learn about partner integrations and partner coexistence.
 ms.topic: overview
-ms.date: 10/31/2025
+ms.date: 03/13/2026
 ms.reviewer: abhijeetsinha
 ai-usage: ai-assisted
 #customer intent: As an administrator, I want to understand the Microsoft SASE partner ecosystem so that I can choose the best approach for my organization's security needs.
@@ -10,13 +10,15 @@ ai-usage: ai-assisted
 
 # Microsoft's SASE partner ecosystem overview
 
+## Overview
+
 Microsoft's Secure Access Service Edge (SASE) partner ecosystem gives organizations a robust, flexible security framework. Microsoft works with leading security vendors so its SASE solution can integrate with different non-Microsoft products. This integration lets organizations use their existing security investments and strengthen their overall security. This article explains the types of partner integrations and coexistence offerings so you can make informed decisions about how to secure your network infrastructure.
 
 Microsoft works with partners to deliver these categories:
 
 - **Partner integration offerings**: These integrations provide a comprehensive solution that deeply and seamlessly embeds advanced partner capabilities directly inside Microsoft's SASE solution, all within the same interface.
 - **Partner coexistence offerings**: These integrations aim to optimize your experience as you deploy Microsoft's SASE solution along with your existing security stacks. 
-- **Partner connectivity offerings**: Partners that demonstrate interoperability between their connectivity capabilities and Microsoft's Security Service Edge (SASE) solution.
+- **Partner connectivity offerings**: Partners that demonstrate interoperability between their connectivity capabilities and Microsoft's Security Service Edge (SSE) solution.
 - **Partner service offerings**: Partners that provide implementation services.
 
 ## Partner integration offerings (Preview)
@@ -35,9 +37,9 @@ You can choose to direct different types of traffic based on your network needs.
 - Private network traffic
 
 The following partners support coexistence:
-- [Cisco](concept-cisco-coexistence.md)
+- [Cisco](how-to-cisco-coexistence.md)
 - [Netskope](how-to-netskope-coexistence.md)
-- [Palo Alto Networks](concept-palo-alto-coexistence.md)
+- [Palo Alto Networks](how-to-palo-alto-coexistence.md)
 - [Zscaler](how-to-zscaler-coexistence.md)
 
 ## Partner connectivity offerings
@@ -72,4 +74,4 @@ For organizations seeking customization according to their unique network archit
 
 ## Partner service offerings
 
-Microsoft works with many service partners. To learn more, see [Find a Microsoft services partner](how-to-find-microsoft-services-partners.md).
+Microsoft works with many service partners. For more information, see [Find a Microsoft services partner](how-to-find-microsoft-services-partners.md).

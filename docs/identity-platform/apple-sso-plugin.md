@@ -1,9 +1,7 @@
 ---
 title: Microsoft Enterprise SSO plug-in for Apple devices
 description: Learn about the Microsoft Entra SSO plug-in for Apple devices using iOS, iPadOS, and macOS devices.
-author: henrymbuguakiarie
 manager: pmwongera
-ms.author: henrymbugua
 ms.custom:
 ms.date: 01/28/2025
 ms.reviewer: 
@@ -433,6 +431,9 @@ The end user sees the familiar experience and doesn't have to sign in again in e
 In March 2024, Microsoft announced that Microsoft Entra ID will transition from Apple's Keychain to Apple's Secure Enclave for storing device identity keys. Beginning August 2025, the Secure Storage rollout will make Secure Enclave the default key storage for all new device registrations. New device registrations will use the secure storage model by default. Existing devices that do not support Secure Enclave will have registration keys stored in the user's Keychain (but not in the legacy Login Keychain). Existing functionality for devices without Secure Storage remains the same.
 
 If your applications or MDM solutions depend on accessing Microsoft Entra device registration keys through Keychain, you must update them to use the Microsoft Authentication Library (MSAL) and the Enterprise SSO plug-in to maintain compatibility with the Microsoft identity platform.
+
+> [!IMPORTANT]
+> Managed devices using Secure Enclave for storing device identity keys will also need to be provisioned with Enterprise SSO or [Platform SSO](/intune/intune-service/configuration/platform-sso-macos) to report [device identity](../identity/devices/overview.md) to Microsoft Entra ID.
 
 ### Using Microsoft Authentication Library (MSAL) to read registration device Information
 

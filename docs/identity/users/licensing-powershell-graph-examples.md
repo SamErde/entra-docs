@@ -1,26 +1,29 @@
 ---
 title: PowerShell examples for group-based licensing
 description: Learn how to manage group-based licensing in Microsoft Entra ID using Microsoft PowerShell. Includes examples for assigning licenses and troubleshooting errors.
-#customer intent: As an IT admin, I want to access PowerShell examples for common group-based licensing tasks so that I can simplify license magement in my organization.
+#customer intent: As an IT admin, I want to access PowerShell examples for common group-based licensing tasks so that I can simplify license management in my organization.
 keywords: Entra ID licensing
 ms.topic: how-to
-ms.date: 03/19/2025
+ms.date: 07/01/2026
 ---
 
 # Group-based licensing PowerShell examples
 
-Group-based licensing in Microsoft Entra ID, part of Microsoft Entra, is available through the [Azure portal](https://portal.azure.com). There are useful tasks that can be performed using [Microsoft Graph PowerShell Cmdlets](/powershell/microsoftgraph/get-started). 
 
-In this article, we go over some examples using Microsoft Graph PowerShell.
+## Overview
+
+Group-based licensing in Microsoft Entra ID, part of Microsoft Entra, is managed in the [Microsoft 365 admin center](/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide&preserve-view=true). This article covers useful tasks that can be performed using [Microsoft Graph PowerShell cmdlets](/powershell/microsoftgraph/get-started).
+
+In this article, some examples are covered using Microsoft Graph PowerShell.
 
 > [!WARNING]
-> These samples are provided for demonstration purposes only. We recommend testing them on a smaller scale or in a separate test environment before relying on them in your production environment. You can modify the samples to meet your specific environment's requirements.
+> These samples are provided for demonstration purposes only. Test them on a smaller scale or in a separate test environment before relying on them in your production environment. You can modify the samples to meet your specific environment's requirements.
 
-Before you begin running cmdlets, make sure you connect to your organization first, by running the `Connect-MgGraph` cmdlet-.
+Before you begin running cmdlets, make sure you connect to your organization first, by running the `Connect-MgGraph` cmdlet.
 
 ## Assign licenses to a group
 
-[Group based licensing](~/fundamentals/concept-group-based-licensing.md) provides a convenient way to manage license assignment. You can assign one or more product licenses to a group and those licenses are assigned to all members of the group.
+[Group-based licensing](/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide&preserve-view=true) provides a convenient way to manage license assignment. You can assign one or more product licenses to a group and those licenses are assigned to all members of the group.
 
 ```powershell
 # Import the Microsoft.Graph.Groups module
@@ -172,7 +175,7 @@ if ($licenses.AssignedLicenses) {
 }
 }
 
-Export to CSV
+# Export to CSV
 $csvPath = "$env:USERPROFILE\Documents\GroupLicenses.csv"
 $groupsWithLicenses | Export-Csv -Path $csvPath -NoTypeInformation -Encoding UTF8
 
@@ -413,8 +416,8 @@ $allUserLicenses | Export-Csv $path -Force -NoTypeInformation
 Write-Host "CSV file generated at: $((Get-Item $path).FullName)"
 ```
 
->[!NOTE]
->This script retrieves a list of all licensed users in your environment, showing which licenses are assigned and the method of assignment. In the results, where "AssignedBy" shows "User", it indicates a direct license assignment. Where "SkuPartNumber" shows "Unknown SKU", it indicates the specific license SKU is disabled in your tenant. The script exports the complete results to a CSV file in your local AppData folder for further analysis.
+> [!NOTE]
+> This script retrieves a list of all licensed users in your environment, showing which licenses are assigned and the method of assignment. In the results, where "AssignedBy" shows "User", it indicates a direct license assignment. Where "SkuPartNumber" shows "Unknown SKU", it indicates the specific license SKU is disabled in your tenant. The script exports the complete results to a CSV file in your local AppData folder for further analysis.
 
 ## Check if user license is assigned directly or inherited from a group
 
@@ -488,7 +491,7 @@ Write-Host "CSV file generated at: $((Get-Item $path).FullName)"
 
 ## Remove direct licenses for users with group licenses
 
-The purpose of this script is to remove unnecessary direct licenses from users who already inherit the same license from a group; for example, as part of a [transition to group-based licensing](~/fundamentals/concept-group-based-licensing.md).
+The purpose of this script is to remove unnecessary direct licenses from users who already inherit the same license from a group; for example, as part of a [transition to group-based licensing](/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide&preserve-view=true).
 
 > [!NOTE]
 >To ensure that users don't lose access to services and data, it's important to confirm that directly assigned licenses don't provide more service functionality than the inherited licenses. It isn't currently possible to use PowerShell to determine which services are enabled through inherited licenses versus direct licenses. Therefore, the script uses a minimum level of services that are known to be inherited from groups to check and ensure that users don't experience unexpected service loss.
@@ -570,6 +573,5 @@ Write-Host "Script execution complete."
 
 To learn more about the feature set for license management through groups, see the following articles:
 
-* [What is group-based licensing in Microsoft Entra ID?](~/fundamentals/concept-group-based-licensing.md)
-* [Assign licenses using the Microsoft 365 admin center](licensing-admin-center.md)
-* [Identify and resolve license assignment problems for a group](~/fundamentals/licensing-groups-resolve-problems.md)
+* [Assign or unassign licenses to a group in the Microsoft 365 admin center](/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide&preserve-view=true)
+* [Manage group-based licensing errors](/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide&preserve-view=true#manage-group-based-licensing-errors)

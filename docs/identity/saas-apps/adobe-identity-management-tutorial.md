@@ -1,12 +1,11 @@
 ---
 title: Configure Adobe Identity Management (SAML) for Single sign-on with Microsoft Entra ID
 description: Learn how to configure single sign-on between Microsoft Entra ID and Adobe Identity Management (SAML).
-ms.reviewer: jomondi
 ms.topic: how-to
 ms.date: 03/25/2025
 ms.custom: sfi-image-nochange
 # Customer intent: As an IT administrator, I want to learn how to configure single sign-on between Microsoft Entra ID and Adobe Identity Management (SAML) so that I can control who has access to Adobe Identity Management (SAML), enable automatic sign-in with Microsoft Entra accounts, and manage my accounts in one central location.
----
+--- 
 
 # Configure Adobe Identity Management (SAML) for Single sign-on with Microsoft Entra ID
 
@@ -28,7 +27,7 @@ The scenario outlined in this article assumes that you already have the followin
 In this article,  you configure and test Microsoft Entra SSO in a test environment.
 
 * Adobe Identity Management (SAML) supports **SP** initiated SSO.
-* Adobe Identity Management (SAML) supports [**automated** user provisioning and deprovisioning](adobe-identity-management-provisioning-tutorial.md) (recommended).
+* Adobe Identity Management (SAML) supports [**automated** user provisioning and deprovisioning](adobe-identity-management-provisioning-saml-tutorial.md) (recommended).
 
 ## Adding Adobe Identity Management (SAML) from the gallery
 

@@ -1,9 +1,7 @@
 ---
 title: Create a custom authentication extension for attribute collection start and submit events (preview)
 description: Learn how to develop and register a Microsoft Entra custom authentication extensions REST API. The custom authentication extension allows you to add logic to attribute collection.
-author: cilwerner
 manager: pmwongera
-ms.author: cwerner
 ms.date: 09/16/2025
 ms.service: identity-platform
 ms.topic: how-to
@@ -48,7 +46,7 @@ In this step, you create an HTTP trigger function API using Azure Functions. The
     | **Function App name** | Globally unique name | A name that identifies the new function app. Valid characters are `a-z` (case insensitive), `0-9`, and `-`.  |
     |**Publish**| Code | Option to publish code files or a Docker container. For this tutorial, select **Code**. |
     | **Runtime stack** | .NET | Your preferred programming language. For this tutorial, select **.NET**.  |
-    | **Version** | 6 (LTS) In-process | Version of the .NET runtime. In-process signifies that you can create and modify functions in the portal, which is recommended for this guide |
+    | **Version** | 6 (LTS) isolated (out-of-process) | Version of the .NET runtime. Isolated (out-of-process) signifies that you can create and run functions using the supported hosting model. |
     | **Region** | Preferred region | Select a [region](https://azure.microsoft.com/regions/) that's near you or near other services that your functions can access. |
     | **Operating System** | Windows | The operating system is preselected for you based on your runtime stack selection. |
     | **Plan type** | Consumption (Serverless) | Hosting plan that defines how resources are allocated to your function app.  |

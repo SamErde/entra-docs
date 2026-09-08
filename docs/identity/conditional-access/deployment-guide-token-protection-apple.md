@@ -1,14 +1,16 @@
 ---
-title: Token Protection Deployment Guide - Apple Platforms (Preview)
+title: Token Protection Deployment Guide - Apple Platforms
 description: Deploy Token Protection with Microsoft Entra Conditional Access for macOS, iOS, and iPadOS
 ms.service: entra-id
 ms.subservice: conditional-access
 ms.topic: how-to
-ms.date: 03/04/2026
+ms.date: 08/14/2026
 ms.reviewer: sgrandhi
 ---
-# Token Protection Deployment Guide - Apple Platforms (Preview)
-This guide covers the steps required to deploy and enforce Token Protection for sign-in session tokens on Apple platforms (iOS, iPadOS, and macOS). Token Protection on Apple platforms is currently in Preview.
+# Token Protection Deployment Guide - Apple Platforms
+## Overview
+
+This guide covers the steps required to deploy and enforce Token Protection for sign-in session tokens on Apple platforms (iOS, iPadOS, and macOS).
 
 Before using this deployment guide, review [Token Protection in Microsoft Entra Conditional Access](concept-token-protection.md) for an overview of the feature and supported platforms.
 
@@ -31,9 +33,10 @@ Token Protection can be applied to the following applications.
 |---|---|---|
 | Intune Company Portal | ✅ | ✅ |
 | Microsoft Authenticator | ✅ |  |
-| Microsoft Edge (support for sign-in to Edge profile only)* | ✅ | ✅ |
+| Microsoft Edge (support for sign-in to Edge profile only) | ✅ | ✅ |
 | Microsoft Loop | ✅ |   |
 | Microsoft OneNote | ✅ | ✅ |
+| Microsoft Scout |  | ✅ |
 | Microsoft SharePoint | ✅ |  |
 | Microsoft Teams | ✅ | ✅ |
 | Microsoft To Do | ✅ | ✅ |
@@ -41,8 +44,6 @@ Token Protection can be applied to the following applications.
 | Outlook | ✅ | ✅ |
 | Visual Studio Code |  | ✅ |
 | Word, Excel, PowerPoint | ✅ | ✅ |
-
-*Token Protection currently supports native applications only. Browser-based applications are not supported.
 
 ### Supported Resources
 
@@ -84,20 +85,13 @@ Complete the following steps for *each* platform you're deploying to. These step
 
 1. Install Microsoft Authenticator from the Apple App Store, or deploy it via your MDM solution. Authenticator serves as the authentication broker for Microsoft Entra sign-ins.
 1. Enable hardware-backed registration using the [Microsoft Enterprise SSO plug-in for Apple Devices](../../identity-platform/apple-sso-plugin.md).
-1. Set the `use_most_secure_storage` flag.
-   - The flag applies only to new device registrations made after the flag is configured.
-   - For Intune-enrolled devices, the flag also applies to registrations made through the Intune Company Portal app, even before the device becomes MDM-managed.
-   - For all other registrations, the flag takes effect only after the device is MDM-managed and the Microsoft Enterprise SSO plug-in profile is active.
 
 ### [macOS](#tab/macos)
 
 1. Install the Microsoft Company Portal or deploy it via your MDM solution. Company Portal serves as the authentication broker for Microsoft Entra sign-ins.
 1. Enable hardware-backed registration using one of the following options:
-   - Option A: Enable the **Microsoft Enterprise SSO plug-in** with the `use_most_secure_storage` flag.
-      - The flag applies only to new device registrations made after the flag is configured.
-      - For Intune-enrolled devices, the flag also applies to registrations made through the Intune Company Portal app, even before the device becomes MDM-managed.
-      - For all other registrations, the flag takes effect only after the device is MDM-managed and the Microsoft Enterprise SSO plug-in profile is active.
-   - Option B: Configure **Platform SSO for macOS**. Platform SSO uses hardware-backed storage by default and requires no extra flag configuration. For setup instructions, see [Configure Platform SSO for macOS devices in Microsoft Intune](/intune/intune-service/configuration/platform-sso-macos).
+   - Option A: Enable the [Microsoft Enterprise SSO plug-in for Apple Devices](../../identity-platform/apple-sso-plugin.md).
+   - Option B: Configure **Platform SSO for macOS**. For setup instructions, see [Configure Platform SSO for macOS devices in Microsoft Intune](/intune/intune-service/configuration/platform-sso-macos).
 
 ---
 
@@ -106,8 +100,8 @@ Complete the following steps for *each* platform you're deploying to. These step
 Before enforcing the policy, deploy it in report-only mode to assess the effect and identify noncompliant sign-in sessions.
 
 1.	Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com) as at least a [Conditional Access Administrator](../../identity/role-based-access-control/permissions-reference.md#conditional-access-administrator).
-1.	Browse to **Protection** > **Conditional Access** > **Policies**.
-1. Give your policy a name. We recommend that organizations create a meaningful standard for the names of their policies.
+1.	Browse to **Entra ID** > **Conditional Access** > **Policies**.
+1. Give your policy a name. Create a meaningful standard for the names of your policies.
 1. Under **Assignments**, select **Users, agents, or workload identities**.
    1. Under **Include**, select the users or groups to target.
    1. Under **Exclude**, select **Users and groups** and choose your organization's emergency access or break-glass accounts. 
@@ -325,7 +319,7 @@ AADNonInteractiveUserSignInLogs
 
 After reviewing sign-in log data and confirming that your targeted users and devices are ready, move the **Enable policy** toggle from **Report-only** to **On**.
 
-We recommend communicating the change to affected users and your help desk team in advance, particularly noting:
+Communicate the change to affected users and your help desk team in advance, particularly noting:
 - Users who will be prompted to upgrade their device registration.
 - Users of Apple's native Mail and Calendar apps, who will be blocked.
 

@@ -2,7 +2,7 @@
 title: Microsoft Entra ID Protection overview
 description: Learn how the Microsoft Entra ID Protection overview dashboard provides a view into security posture.
 ms.topic: how-to
-ms.date: 10/06/2025
+ms.date: 03/20/2026
 ms.reviewer: chuqiaoshi
 ms.custom: sfi-image-nochange
 ---
@@ -132,6 +132,12 @@ Recent Activity provides a summary of recent risk-related activities in your ten
 1. New High-Risk Users 
 
 [![Screenshot showing recent activities in the dashboard.](./media/id-protection-dashboard/microsoft-entra-id-protection-dashboard-recent-activities.png)](./media/id-protection-dashboard/microsoft-entra-id-protection-dashboard-recent-activities.png)
+
+## Unified risk signals
+
+Microsoft Entra ID Protection provides unified risk signals that aggregate correlated risk signals from Microsoft Entra ID Protection, Microsoft Defender, and other Microsoft security products. Instead of evaluating alerts in isolation, this capability correlates identity-related signals across products and evaluates them together within the same time window to calculate a compounded user risk score.
+
+This requires Microsoft Defender for Identity to be configured. For full details on how unified risk works, how to enable it, and how to troubleshoot common issues, see [Unified risk signals in Microsoft Entra ID Protection](concept-identity-protection-unified-risk.md).
 
 ## Known issues
 

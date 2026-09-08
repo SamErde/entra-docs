@@ -1,9 +1,7 @@
 ---
 title: Microsoft identity platform app types and authentication flows
 description: Learn about application scenarios for the Microsoft identity platform, including authenticating identities, acquiring tokens, and calling protected APIs.
-author: cilwerner
 manager: pmwongera
-ms.author: cwerner
 ms.date: 04/14/2025
 ms.reviewer: jmprieur
 ms.service: identity-platform
@@ -112,7 +110,7 @@ For more information, see [Sign in users in a sample web app](./quickstart-web-a
 
 To call a web API from a web app on behalf of a user, use the authorization code flow and store the acquired tokens in the token cache. When needed, MSAL refreshes tokens and the controller silently acquires tokens from the cache.
 
-For more information, see [Web app that calls web APIs](scenario-web-api-call-api-app-configuration.md).
+For more information, see [Web app that calls web APIs](scenario-web-app-call-api-app-configuration.md).
 
 ### Desktop app that calls a web API on behalf of a signed-in user
 

@@ -1,11 +1,10 @@
 ---
 title: Configure a GitHub enterprise with Enterprise Managed Users for SAML Single sign-on with Microsoft Entra ID
 description: Learn how to configure SAML single sign-on between Microsoft Entra ID and a GitHub enterprise with Enterprise Managed Users.
-ms.reviewer: jomondi
 ms.topic: how-to
 ms.date: 05/22/2024
 # Customer intent: As an IT administrator, I want to learn how to configure SAML single sign-on between Microsoft Entra ID and a GitHub enterprise with Enterprise Managed Users so that I can control who has access to the type of GitHub enterprise, enable automatic sign-in with Microsoft Entra accounts, and manage my accounts in one central location.
----
+--- 
 
 # Configure a GitHub enterprise with Enterprise Managed Users for SAML Single sign-on with Microsoft Entra ID
 
@@ -88,9 +87,9 @@ Follow these steps to enable Microsoft Entra SAML SSO.
     In the **Sign-on URL** text box, type a URL using the following pattern:
     `https://github.com/enterprises/{enterprise}/sso`
 
-1. On the **Set up single sign-on with SAML** page, in the **SAML Signing Certificate** section, find **Certificate (PEM)** and select **PEM certificate download** to download the certificate and save it on your computer.
+1. On the **Set up single sign-on with SAML** page, in the **SAML Certificates** section, download the Base64 certificate and save it on your computer.
 
-	![Screenshot shows the Certificate download link.](common/certificate-base64-download.png "Certificate")
+	![Screenshot shows the Certificate download link.](common/certificate-base64.png "Certificate")
 
 1. On the **Set up GitHub Enterprise Managed User** section, copy the URLs below and save it for configuring GitHub below.
 
